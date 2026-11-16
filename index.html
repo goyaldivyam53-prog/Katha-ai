@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KATHA AI - Hindi Story Studio</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090b12;color:#f5f5f5;
+ font-family:Arial,sans-serif;padding:20px;
+}
+header{text-align:center;padding:22px 0}
+.logo{font-size:34px;font-weight:900;letter-spacing:3px;color:#e5b85c}
+.tag{color:#999;font-size:13px}
+.card{
+ background:#141824;border:1px solid #292f40;
+ border-radius:15px;padding:18px;margin:16px 0;
+}
+h2{font-size:18px;margin-top:0}
+textarea,select{
+ width:100%;background:#090d17;color:white;
+ border:1px solid #343b50;border-radius:10px;
+ padding:13px;font-size:15px;margin-top:10px;
+}
+textarea{height:170px;resize:vertical}
+button{
+ width:100%;padding:14px;border:0;border-radius:10px;
+ background:#d6a94f;color:#101010;font-weight:bold;
+ font-size:15px;margin-top:12px;cursor:pointer;
+}
+button.secondary{background:#252d40;color:white}
+.scene{
+ background:#0c111d;border:1px solid #30394e;
+ padding:14px;border-radius:12px;margin:12px 0;
+}
+.scene h3{color:#e5b85c;font-size:15px}
+.scene p{font-size:14px;line-height:1.5;color:#ddd}
+.small{font-size:12px;color:#999}
+#status{color:#e5b85c;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">KATHA AI</div>
+ <p class="tag">Your Hindi AI Story Studio</p>
+ <p class="small">Imagine. Narrate. Create.</p>
+</header>
+
+<div class="card">
+ <h2>🎬 Create Your Story Video</h2>
+ <p class="small">Apni Hindi story yahan paste karo.</p>
+ <textarea id="story" placeholder="Yahan apni suspense, thriller ya horror story likho..."></textarea>
+
+ <h2 style="margin-top:20px">🎨 Visual Style</h2>
+ <select id="style">
+  <option value="auto">AI Automatic Selection</option>
+  <option value="dark cinematic">Dark Suspense Cinematic</option>
+  <option value="photorealistic Indian cinema">Photorealistic Indian Cinema</option>
+  <option value="Indian folklore mythological cinematic">Indian Mythological Cinematic</option>
+ </select>
+
+ <button onclick="createStory()">GENERATE SCENES ✨</button>
+ <p id="status"></p>
+</div>
+
+<div class="card">
+ <h2>🎞️ Your Story Scenes</h2>
+ <div id="output" class="small">Your generated scenes will appear here.</div>
+</div>
+
+<div class="card">
+ <h2>🎙️ Hindi AI Voice Preview</h2>
+ <p class="small">Phone ke available Hindi voice ka use hoga.</p>
+ <button onclick="speakStory()">▶ Play Narration</button>
+ <button class="secondary" onclick="speechSynthesis.cancel()">⏹ Stop Voice</button>
+</div>
+
+<div class="card">
+ <h2>📥 Export</h2>
+ <button class="secondary" onclick="downloadPrompts()">Download Scene Prompts</button>
+ <p class="small">Version 1 scene planning aur voice preview banata hai. MP4 video export abhi available nahi hai.</p>
+</div>
+
+<script>
+let scenes=[];
+
+function createStory(){
+ const story=document.getElementById("story").value.trim();
+ const style=document.getElementById("style").value;
+ const output=document.getElementById("output");
+ const status=document.getElementById("status");
+
+ if(!story){
+  status.textContent="Pehle apni story paste karo!";
+  return;
+ }
+
+ let selected=style;
+ if(style==="auto"){
+  selected=/राजा|मंदिर|देवता|महाभारत|रामायण|शाप/i.test(story)
+  ?"Indian folklore mythological cinematic"
+  :/गाँव|शहर|पुलिस|होटल|स्टेशन/i.test(story)
+  ?"photorealistic Indian cinema"
+  :"dark cinematic";
+ }
+
+ scenes=story.split(/[।!?]+/).map(x=>x.trim()).filter(x=>x.length>0);
+
+ output.innerHTML="";
+ scenes.forEach((line,i)=>{
+  const prompt=`${selected} scene, cinematic lighting, atmospheric background, detailed Indian setting. Scene description: ${line}`;
+  const div=document.createElement("div");
+  div.className="scene";
+  const title=document.createElement("h3");
+  title.textContent="SCENE "+(i+1);
+  const desc=document.createElement("p");
+  desc.textContent=line;
+  const visual=document.createElement("p");
+  visual.className="small";
+  visual.textContent="VISUAL PROMPT: "+prompt;
+  div.append(title,desc,visual);
+  output.appendChild(div);
+ });
+
+ status.textContent=scenes.length+" scenes created successfully!";
+}
+
+function speakStory(){
+ const story=document.getElementById("story").value.trim();
+ if(!story){alert("Pehle story likho!");return;}
+ if(!("speechSynthesis" in window)){
+  alert("Your browser does not support voice preview.");
+  return;
+ }
+ speechSynthesis.cancel();
+ const msg=new SpeechSynthesisUtterance(story);
+ msg.lang="hi-IN";
+ msg.rate=0.9;
+ speechSynthesis.speak(msg);
+}
+
+function downloadPrompts(){
+ if(!scenes.length){alert("Pehle scenes generate karo!");return;}
+ const style=document.getElementById("style").value;
+ const text=scenes.map((s,i)=>
+ "SCENE "+(i+1)+"\n"+s+"\nVISUAL PROMPT: "+style+" cinematic scene, "+s
+ ).join("\n\n------------------\n\n");
+ const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;a.download="KATHA_AI_Scenes.txt";a.click();
+ URL.revokeObjectURL(url);
+}
+</script>
+</body>
+    </html>
+    
