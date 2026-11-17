@@ -5,23 +5,151 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KATHA AI - Story Studio</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;padding:16px;background:#090b12;color:white;font-family:Arial,sans-serif;max-width:760px;margin:auto}
-header{text-align:center;padding:22px}
-.logo{font-size:34px;font-weight:900;letter-spacing:3px;color:#e5b85c}
-.small{color:#aaa;font-size:13px;line-height:1.5}
-.card{background:#141824;border:1px solid #292f40;border-radius:15px;padding:18px;margin:16px 0}
-h2{font-size:18px}
-textarea,select,input{width:100%;padding:13px;margin-top:10px;background:#090d17;color:white;border:1px solid #343b50;border-radius:10px;font-size:15px}
-textarea{height:160px}
-button{width:100%;padding:14px;margin-top:12px;border:0;border-radius:10px;background:#d6a94f;color:#111;font-weight:bold;font-size:15px}
-.secondary{background:#252d40;color:white}
-.mini{width:auto;padding:9px;font-size:12px}
-.scene{background:#0c111d;border:1px solid #30394e;padding:14px;border-radius:12px;margin:12px 0}
-.scene h3{color:#e5b85c}
-.scene p{font-size:14px;line-height:1.5;overflow-wrap:anywhere}
-#status{color:#e5b85c;font-size:13px}
-.note{color:#aaa;font-size:12px;line-height:1.5}
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+padding:20px;
+background:radial-gradient(ellipse at top,#252052 0%,#101326 45%,#080b16 100%);
+color:#f5f5ff;
+font-family:'Segoe UI',Arial,sans-serif;
+max-width:850px;
+margin:auto;
+}
+
+header{
+text-align:center;
+padding:45px 15px 35px;
+}
+
+.logo{
+font-size:42px;
+font-weight:1000;
+letter-spacing:5px;
+background:linear-gradient(90deg,#ffcf70,#ff71c6,#8b9dff);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.small{
+color:#b8bad0;
+font-size:14px;
+line-height:1.7;
+}
+
+.card{
+background:linear-gradient(145deg,rgba(36,39,72,.92),rgba(17,22,43,.95));
+border:1px solid rgba(151,133,255,.28);
+border-radius:22px;
+padding:23px;
+margin:20px 0;
+box-shadow:0 12px 35px rgba(0,0,0,.3);
+}
+
+h2{
+font-size:20px;
+color:#e4c5ff;
+margin-top:5px;
+}
+
+textarea,select,input{
+width:100%;
+padding:15px;
+margin-top:12px;
+background:#10162b;
+color:white;
+border:1px solid #6258a5;
+border-radius:13px;
+font-size:15px;
+outline:none;
+}
+
+textarea{
+height:170px;
+resize:vertical;
+}
+
+textarea:focus,select:focus,input:focus{
+border-color:#d18bff;
+box-shadow:0 0 12px rgba(180,115,255,.25);
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:14px;
+border:0;
+border-radius:13px;
+background:linear-gradient(100deg,#9b6cff,#e56bc6);
+color:white;
+font-weight:800;
+font-size:15px;
+letter-spacing:.5px;
+box-shadow:0 5px 18px rgba(167,103,255,.25);
+}
+
+button:active{
+transform:scale(.98);
+}
+
+.secondary{
+background:linear-gradient(100deg,#263d70,#394c82);
+color:white;
+}
+
+.mini{
+width:auto;
+padding:10px 15px;
+font-size:12px;
+}
+
+.scene{
+background:linear-gradient(140deg,#202746,#151a32);
+border:1px solid #554b91;
+padding:17px;
+border-radius:16px;
+margin:15px 0;
+}
+
+.scene h3{
+color:#ffc978;
+}
+
+.scene p{
+font-size:14px;
+line-height:1.7;
+overflow-wrap:anywhere;
+}
+
+#status{
+color:#81f5c2;
+font-size:14px;
+margin-top:12px;
+}
+
+.note{
+color:#aeb3ce;
+font-size:12px;
+line-height:1.7;
+}
+
+::placeholder{
+color:#858ba9;
+}
+
+button:hover{
+filter:brightness(1.12);
+}
+
+@media(max-width:500px){
+body{padding:12px;}
+header{padding:30px 10px;}
+.logo{font-size:34px;}
+.card{padding:17px;border-radius:17px;}
+h2{font-size:18px;}
+  }
 </style>
 </head>
 <body>
