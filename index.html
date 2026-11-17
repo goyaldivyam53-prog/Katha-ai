@@ -180,5 +180,59 @@ const data=prompts.map((p,i)=>
 saveFile("KATHA_AI_Prompts.txt",data);
 }
 </script>
+  <div class="card">
+<h2>🖼️ Image Prompt Studio — V3</h2>
+
+<label class="small">Image Aspect Ratio</label>
+<select id="ratio">
+<option value="16:9 widescreen landscape">16:9 — YouTube</option>
+<option value="9:16 vertical portrait">9:16 — Reels / Shorts</option>
+<option value="1:1 square composition">1:1 — Square</option>
+</select>
+
+<button onclick="createImagePrompts()">CREATE IMAGE PROMPTS ✨</button>
+
+<div id="imageOutput" class="small">
+Your image prompts will appear here.
+</div>
+
+<p class="note">Creates prompts only. AI image rendering is not connected yet.</p>
+</div>
+
+<script>
+function createImagePrompts(){
+if(!scenes.length){
+alert("Pehle scenes generate karo!");
+return;
+}
+
+const ratio=document.getElementById("ratio").value;
+const target=document.getElementById("imageOutput");
+target.innerHTML="";
+
+scenes.forEach((line,i)=>{
+const prompt="Create a "+ratio+
+" cinematic image showing: "+line+
+". Realistic Indian setting, dramatic lighting, detailed environment, expressive characters, professional film color grading, sharp focus, no text, no watermark.";
+
+const box=document.createElement("div");
+box.className="scene";
+
+const heading=document.createElement("h3");
+heading.textContent="IMAGE PROMPT — SCENE "+(i+1);
+
+const desc=document.createElement("p");
+desc.textContent=prompt;
+
+const copy=document.createElement("button");
+copy.className="mini secondary";
+copy.textContent="Copy Image Prompt";
+copy.onclick=()=>copyText(prompt,copy);
+
+box.append(heading,desc,copy);
+target.appendChild(box);
+});
+}
+</script>
 </body>
 </html>
